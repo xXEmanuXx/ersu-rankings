@@ -1,0 +1,10 @@
+# Initial files used to create initial .txt files used by 'fix_format'
+*.xlsx
+*.pdf
+
+# Files created by 'fix_format', 'first_years' and 'subsequent_years' used to laod database data
+data/*.csv
+data/*.txt
+
+# Information regarding database connection with mysqli
+database-loader/configdb.php

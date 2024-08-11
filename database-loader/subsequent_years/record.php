@@ -66,7 +66,7 @@
             $honors;
 
             if (is_numeric($this->year)) {
-                $expected_cfu = $this->year * $GLOBALS["CFU_PER_YEAR"];
+                $expected_cfu = ($this->year - 1) * $GLOBALS["CFU_PER_YEAR"];
             }
             else {
                 switch ($this->type) {

@@ -112,8 +112,8 @@
     
     $cdl_year_bs = fopen("../../data/cdl_year_bs.csv", "w");
     $cdl_year_pl = fopen("../../data/cdl_year_pl.csv", "w");
-    $participant_bs = fopen("../../data/participant_bs.csv", "w");
-    $participant_pl = fopen("../../data/participant_pl.csv", "w");
+    $participant_bs = fopen("../../data/participant_sy_bs.csv", "w");
+    $participant_pl = fopen("../../data/participant_sy_pl.csv", "w");
 
     while ($string = fgets($file)) {
         $cdl_year = new cdl_year($string);
@@ -169,12 +169,12 @@
     $conn->select_db("ranking_subsequent_years_scholarship");
     $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/cdl_year_bs.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
     $conn->query($query);
-    $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
+    $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_sy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
     $conn->query($query);
     $conn->select_db("ranking_subsequent_years_housing");
     $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/cdl_year_pl.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
     $conn->query($query);
-    $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
+    $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_sy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
     $conn->query($query);
     $conn->close();
 

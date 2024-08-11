@@ -23,7 +23,7 @@ void modifyFormat(FILE* f, FILE* newf) {
 
     while (fgets(string, MAX_LENGTH, f) != NULL) {
         if (string[0] == '2') {
-            // checks if the string is a participant if it starts with a '2' which indicates the id of the request
+            // checks if the string is a participant if it starts with a '2' which indicates the request number
             for (int i = 0; i < strlen(string); i++) {
                 if (string[i] == '.') {
                     // removes the dot by moving the remaining part of the string one byte to the left overlapping it
