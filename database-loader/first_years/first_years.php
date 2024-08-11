@@ -31,14 +31,17 @@
 <?php
     require "record.php";
 
-    $file = fopen("../../data/first_years.txt", "r");
+    $file = fopen("/data/first_years.txt", "r");
+    //$file = fopen("../../data/first_years.txt", "r");
     if ($file == false) {
         echo "Error on file opening\n";
         exit();
     }
 
-    $bs = fopen("../../data/participant_fy_bs.csv", "w");
-    $pl = fopen("../../data/participant_fy_pl.csv", "w");
+    /* $bs = fopen("../../data/participant_fy_bs.csv", "w");
+    $pl = fopen("../../data/participant_fy_pl.csv", "w"); */
+    $bs = fopen("/data/participant_fy_bs.csv", "w");
+    $pl = fopen("/data/participant_fy_pl.csv", "w");
 
     while ($string = fgets($file)) {
         $record = new Record($string);
@@ -60,11 +63,13 @@
     require "../configdb.php";
 
     $conn->select_db("ranking_first_years_scholarship");
-    $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
+    $query = "LOAD DATA LOCAL INFILE '/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
+    //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
     $conn->query($query);
 
     $conn->select_db("ranking_first_years_housing");
-    $query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
+    $query = "LOAD DATA LOCAL INFILE '/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
+    //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
     $conn->query($query);
 
     $conn->close();

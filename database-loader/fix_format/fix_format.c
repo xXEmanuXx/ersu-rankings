@@ -35,7 +35,7 @@ void modifyFormat(FILE* f, FILE* newf) {
                     string[i] = '.';
                 }
             }
-            fprintf(newf, string);
+            fprintf(newf, "%s", string);
         }
     }
 }

@@ -1,0 +1,3 @@
+# Initial files not used by docker containers
+*.xlsx
+*.pdf

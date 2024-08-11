@@ -1,5 +1,5 @@
 <?php
-    $host = "localhost";
+    $host = "host.docker.internal";
     $user = "emanu";
     $password = "balls123.";
     $db = "";
@@ -9,4 +9,5 @@
         echo "Error connecting to database\n";
         exit();
     }
+    $conn->options(MYSQLI_OPT_LOCAL_INFILE, true);
 ?>

@@ -1,0 +1,8 @@
+services:
+  db-loader:
+    image: db-loader:latest
+    volumes:
+      - db-data:/data
+volumes:
+  db-data:
+    name: db-data
