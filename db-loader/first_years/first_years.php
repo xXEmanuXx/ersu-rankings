@@ -48,10 +48,10 @@
         $record->calculateScore();
 
         $data = buildData($record);
-        if (strlen($record->outcome_bs) > 0 && $record->outcome_bs[0] != 'n') {
+        if (strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni")) ) {
             fwrite($bs, $data);
         }
-        if (strlen($record->outcome_pl) > 0 && $record->outcome_pl[0] != 'n') {
+        if (strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni"))) {
             fwrite($pl, $data);
         }
     }
@@ -63,12 +63,12 @@
     require "../configdb.php";
 
     $conn->select_db("ranking_first_years_scholarship");
-    $query = "LOAD DATA LOCAL INFILE '/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
+    $query = "LOAD DATA INFILE '/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
     $conn->query($query);
 
     $conn->select_db("ranking_first_years_housing");
-    $query = "LOAD DATA LOCAL INFILE '/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
+    $query = "LOAD DATA INFILE '/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
     $conn->query($query);
 

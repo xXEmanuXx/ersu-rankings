@@ -70,7 +70,7 @@
         
         // if cdl and year are encountered for the first time they are put in a list so there won't be redudant data
 
-        if (strlen($cdl_year->outcome_bs) > 0 && $cdl_year->outcome_bs[0] != 'n') {
+        if (strlen($cdl_year->outcome_bs) > 0 && ($cdl_year->outcome_bs[0] == 'i' || str_contains($cdl_year->outcome_bs, "omissioni"))) {
             if (!find($ListBs, $cdl_year, $YEAR_ONLY)) {
                 fwrite($year_bs, "{$cdl_year->year}\n"); 
             }
@@ -81,7 +81,7 @@
                 array_push($ListBs, $cdl_year); 
             }
         }
-        if (strlen($cdl_year->outcome_pl) > 0 && $cdl_year->outcome_pl[0] != 'n') {
+        if (strlen($cdl_year->outcome_pl) > 0 && ($cdl_year->outcome_pl[0] == 'i' || str_contains($cdl_year->outcome_pl, "omissioni"))) {
             if (!find($ListPl, $cdl_year, $YEAR_ONLY)) {
                 fwrite($year_pl, "{$cdl_year->year}\n");
             }
@@ -102,18 +102,18 @@
     require "../configdb.php";
     
     $conn->select_db("ranking_subsequent_years_scholarship");
-    $query = "LOAD DATA LOCAL INFILE '/data/year_bs.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
+    $query = "LOAD DATA INFILE '/data/year_bs.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/year_bs.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
     $conn->query($query);
-    $query = "LOAD DATA LOCAL INFILE '/data/cdl_bs.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
+    $query = "LOAD DATA INFILE '/data/cdl_bs.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/cdl_bs.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
     $conn->query($query);
 
     $conn->select_db("ranking_subsequent_years_housing");
-    $query = "LOAD DATA LOCAL INFILE '/data/year_pl.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
+    $query = "LOAD DATA INFILE '/data/year_pl.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/year_pl.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
     $conn->query($query);
-    $query = "LOAD DATA LOCAL INFILE '/data/cdl_pl.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
+    $query = "LOAD DATA INFILE '/data/cdl_pl.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/cdl_pl.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
     $conn->query($query);
 
@@ -133,7 +133,7 @@
         $record = new Record($string);
         $record->calculateScore();
 
-        if (strlen($record->outcome_bs > 0 && $record->outcome_bs[0] != 'n')) {
+        if (strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni"))) {
             $conn->select_db("ranking_subsequent_years_scholarship");
             $query = "SELECT cdl.id AS cdl_id, year.id AS year_id FROM cdl, year WHERE name = ? AND type = ? AND year = ?";
             $stat = $conn->prepare($query);
@@ -152,7 +152,7 @@
             $data = buildData($record, $cdl_id, $year_id);
             fwrite($participant_bs, $data);
         }
-        if (strlen($record->outcome_pl > 0 && $record->outcome_pl[0] != 'n')) {
+        if (strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni"))) {
             $conn->select_db("ranking_subsequent_years_housing");
             $query = "SELECT cdl.id AS cdl_id, year.id AS year_id FROM cdl, year WHERE name = ? AND type = ? AND year = ?";
             $stat = $conn->prepare($query);
@@ -180,17 +180,17 @@
     fclose($file);
 
     $conn->select_db("ranking_subsequent_years_scholarship");
-    $query = "LOAD DATA LOCAL INFILE '/data/cdl_year_bs.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
+    $query = "LOAD DATA INFILE '/data/cdl_year_bs.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/cdl_year_bs.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
     $conn->query($query);
-    $query = "LOAD DATA LOCAL INFILE '/data/participant_sy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
+    $query = "LOAD DATA INFILE '/data/participant_sy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_sy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
     $conn->query($query);
     $conn->select_db("ranking_subsequent_years_housing");
-    $query = "LOAD DATA LOCAL INFILE '/data/cdl_year_pl.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
+    $query = "LOAD DATA INFILE '/data/cdl_year_pl.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/cdl_year_pl.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
     $conn->query($query);
-    $query = "LOAD DATA LOCAL INFILE '/data/participant_sy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
+    $query = "LOAD DATA INFILE '/data/participant_sy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
     //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_sy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
     $conn->query($query);
     $conn->close();

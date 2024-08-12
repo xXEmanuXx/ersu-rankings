@@ -9,5 +9,4 @@
         echo "Error connecting to database\n";
         exit();
     }
-    //$conn->options(MYSQLI_OPT_LOCAL_INFILE, true);
 ?>
