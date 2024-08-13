@@ -13,11 +13,9 @@ int main(int argc, char** argv) {
         char filename[MAX_FILENAME];
 
         snprintf(filename, MAX_FILENAME, "/data/initial/%s", argv[i]);
-        //snprintf(filename, MAX_FILENAME, "../../data/initial/%s", argv[i]);
         FILE* f = fopen(filename, "r");
 
         snprintf(filename, MAX_FILENAME, "/data/%s", argv[i]);
-        //snprintf(filename, MAX_FILENAME, "../../data/%s", argv[i]);
         FILE* newf = fopen(filename, "w");
 
         /* char row[MAX_LENGTH];

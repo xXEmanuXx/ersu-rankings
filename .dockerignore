@@ -1,3 +1,7 @@
-# Initial files not used by docker containers
+# Untracked files for docker containers
 *.xlsx
 *.pdf
+secret
+*.exe
+*.out
+.website

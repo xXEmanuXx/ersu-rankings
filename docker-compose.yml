@@ -5,18 +5,26 @@ services:
     image: db-loader:latest
     environment:
       DB_HOST: db
+      DB_USER_FILE: /run/secrets/db_user
+      DB_PASSWORD_FILE: /run/secrets/db_password
     volumes:
       - db-data:/data
+    secrets:
+      - db_user
+      - db_password
     depends_on:
       db:
         condition: service_healthy
   db:
     image: mariadb:lts
     environment:
-      MYSQL_ROOT_PASSWORD: negro1243.
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: rankings
     volumes:
       - db-data:/data
-      - ./data/initial/rankings.sql:/docker-entrypoint-initdb.d/rankings.sql
+      - ./data/initial/db:/docker-entrypoint-initdb.d
+    secrets:
+      - db_root_password
     ports: 
       - "3306:3306"
     healthcheck:
@@ -29,3 +37,10 @@ volumes:
   db-data:
     name: db-data
     external: true
+secrets:
+  db_root_password:
+    file: ./secret/db_root_password.txt
+  db_user:
+    file: ./secret/db_user.txt
+  db_password:
+    file: ./secret/db_password.txt

@@ -6,5 +6,10 @@
 data/*.csv
 data/*.txt
 
-# Information regarding database connection with mysqli
-database-loader/configdb.php
+# Information regarding database users
+secret
+
+# Untracked files
+*.exe
+*.out
+.website

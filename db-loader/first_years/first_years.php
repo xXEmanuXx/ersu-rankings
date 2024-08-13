@@ -1,29 +1,47 @@
 <?php
     function buildData($record) {
         $string = "";
-
+        
         $string .= $record->id . ",";
+
         if (strlen($record->isee) > 0) {
             $string .= $record->isee . ",";
         }
         else {
             $string .= "\N,";
         }
+
         if (strlen($record->ispe) > 0) {
             $string .= $record->ispe . ",";
         }
         else {
             $string .= "\N,";
         }
+
         $string .= $record->score . ",";
+
         if (strlen($record->notes) > 0) {
-            $string .= $record->notes;
+            $string .= $record->notes . ",";
         }
         else {
-            $string .= "\N";
+            $string .= "\N,";
         }
-        $string .= "\n";
 
+        if (strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni"))) {
+            $string .= "1,";
+        }
+        else {
+            $string .= "0,";
+        }
+
+        if (strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni"))) {
+            $string .= "1";
+        }
+        else {
+            $string .= "0";
+        }
+
+        $string .= "\n";
         return $string;
     }
 ?>
@@ -32,44 +50,31 @@
     require "record.php";
 
     $file = fopen("/data/first_years.txt", "r");
-    //$file = fopen("../../data/first_years.txt", "r");
     if ($file == false) {
         echo "Error on file opening\n";
         exit();
     }
 
-    /* $bs = fopen("../../data/participant_fy_bs.csv", "w");
-    $pl = fopen("../../data/participant_fy_pl.csv", "w"); */
-    $bs = fopen("/data/participant_fy_bs.csv", "w");
-    $pl = fopen("/data/participant_fy_pl.csv", "w");
+    $participant = fopen("/data/participant_fy.csv", "w");
 
     while ($string = fgets($file)) {
         $record = new Record($string);
         $record->calculateScore();
 
-        $data = buildData($record);
-        if (strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni")) ) {
-            fwrite($bs, $data);
-        }
-        if (strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni"))) {
-            fwrite($pl, $data);
+        if ((strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni"))) || 
+            (strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni")))) 
+        {
+            $data = buildData($record);
+            fwrite($participant, $data);
         }
     }
 
     fclose($file);
-    fclose($bs);
-    fclose($pl);
+    fclose($participant);
 
     require "../configdb.php";
 
-    $conn->select_db("ranking_first_years_scholarship");
-    $query = "LOAD DATA INFILE '/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
-    //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
-    $conn->query($query);
-
-    $conn->select_db("ranking_first_years_housing");
-    $query = "LOAD DATA INFILE '/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
-    //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/participant_fy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes)";
+    $query = "LOAD DATA INFILE '/data/participant_fy.csv' INTO TABLE participant_fy FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, isee, ispe, score, notes, scholarship, accommodation)";
     $conn->query($query);
 
     $conn->close();
