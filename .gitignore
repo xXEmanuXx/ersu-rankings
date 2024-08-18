@@ -13,3 +13,8 @@ secret
 *.exe
 *.out
 .website
+rankings-web/HELP.md
+rankings-web/.mvn
+rankings-web/src/main/**/target/
+rankings-web/src/test/**/target/
+rankings-web/target
