@@ -6,16 +6,20 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
     .navbar-nav {
         background-color: #f8f9fa;
     }
-}
+} */
 
 .bg-info-darker {
     background-color: #a3d4e2;
 }
 
 .form-check-label {
-    margin-top: 0.75px;
+    margin-top: 1.25px;
+}
+
+.custom-bg-gradient {
+    background-image: linear-gradient(180deg, var(--bs-secondary-bg-subtle), var(--bs-secondary));
 }

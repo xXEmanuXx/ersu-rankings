@@ -18,3 +18,4 @@ rankings-web/.mvn
 rankings-web/src/main/**/target/
 rankings-web/src/test/**/target/
 rankings-web/target
+rankings-web/src/main/resources/static/icons
