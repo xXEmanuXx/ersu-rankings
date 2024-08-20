@@ -1,29 +1,15 @@
 'use strict';
 
-import { setStoredTheme, getPreferredTheme, setTheme, showActiveTheme } from './theme.js';
-import { validateInput } from './validation.js';
-
-setTheme(getPreferredTheme());
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    const storedTheme = getStoredTheme();
-    if (storedTheme !== 'light' && storedTheme !== 'dark') {
-        setTheme(getPreferredTheme());
+const validateInput = (input) => {
+    input.setCustomValidity('');
+    const value = input.value.trim();
+    if (value.length != 10 || !value.startsWith("2023", 0)) {
+        input.setCustomValidity('Il numero di richiesta deve essere di 10 cifre e iniziare con 2023');
+        return false;
     }
-});
 
-window.addEventListener('DOMContentLoaded', () => {
-    showActiveTheme(getPreferredTheme());
-
-    document.querySelectorAll('[data-bs-theme-value]').forEach((toggle) => {
-        toggle.addEventListener('click', () => {
-            const theme = toggle.getAttribute('data-bs-theme-value');
-            setStoredTheme(theme);
-            setTheme(theme);
-            showActiveTheme(theme, true);
-        });
-    });
-});
+    return true;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.btn.btn-primary');
@@ -46,8 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // validation for each form
-
-
     forms.forEach((form, index) => {
         form.addEventListener('submit', (event) => {
             if (form.id == 'form1') {
@@ -97,10 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // show different form parts based on radio clicked on form2
-    const handleSelectChange = (nextElement = null) => {
-        if (nextElement !== null) {
-            nextElement.removeAttribute('disabled');
-        }
+    const handleSelectChange = (nextElement) => {
+        nextElement.removeAttribute('disabled');
     }
 
     const radios = document.getElementById('form2').querySelectorAll('input[type = "radio"]');
@@ -138,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     cdlSelect.addEventListener('change', () => handleSelectChange(cdlTypeSelect));
                     cdlTypeSelect.addEventListener('change', () => handleSelectChange(yearSelect));
-                    yearSelect.addEventListener('change', () => handleSelectChange());
                 }
             }
         });
