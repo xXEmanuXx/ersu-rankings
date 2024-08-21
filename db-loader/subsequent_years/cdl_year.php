@@ -72,4 +72,12 @@
         }
         return false;
     }
+
+    function search($array, $c) {
+        foreach ($array as $index => $elem) {
+            if ($elem->name == $c->name && $elem->type == $c->type && $elem->year == $c->year) {
+                return $index;
+            }
+        }
+    }
 ?>

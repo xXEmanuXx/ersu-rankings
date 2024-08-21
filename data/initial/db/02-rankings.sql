@@ -51,6 +51,8 @@ DROP TABLE IF EXISTS `cdl_year`;
 CREATE TABLE `cdl_year` (
   `cdl` int(11) NOT NULL,
   `year` int(11) NOT NULL,
+  `scholarship` tinyint(1) NOT NULL DEFAULT 0,
+  `accommodation` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cdl`,`year`),
   KEY `cdl` (`cdl`),
   KEY `year` (`year`),

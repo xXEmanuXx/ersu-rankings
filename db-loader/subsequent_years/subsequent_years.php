@@ -95,19 +95,22 @@
             }
             if (!find($list, $cdl_year, $CDL_AND_YEAR)) {
                 array_push($list, $cdl_year); 
+            } else {
+                $index = search($list, $cdl_year);
+
+                if (!(strlen($list[$index]->outcome_bs) > 0 && ($list[$index]->outcome_bs[0] == 'i' || str_contains($list[$index]->outcome_bs, "omissioni")))) {
+                    if (strlen($cdl_year->outcome_bs) > 0 && ($cdl_year->outcome_bs[0] == 'i' || str_contains($cdl_year->outcome_bs, "omissioni"))) {
+                        $list[$index]->outcome_bs = $cdl_year->outcome_bs;
+                    }
+                }
+                if (!(strlen($list[$index]->outcome_pl) > 0 && ($list[$index]->outcome_pl[0] == 'i' || str_contains($list[$index]->outcome_pl, "omissioni")))) {
+                    if (strlen($cdl_year->outcome_pl) > 0 && ($cdl_year->outcome_pl[0] == 'i' || str_contains($cdl_year->outcome_pl, "omissioni"))) {
+                        $list[$index]->outcome_pl = $cdl_year->outcome_pl;
+                    }
+                }
+
             }
-        }/* 
-        if (strlen($cdl_year->outcome_pl) > 0 && ($cdl_year->outcome_pl[0] == 'i' || str_contains($cdl_year->outcome_pl, "omissioni"))) {
-            if (!find($ListPl, $cdl_year, $YEAR_ONLY)) {
-                fwrite($year_pl, "{$cdl_year->year}\n");
-            }
-            if (!find($ListPl, $cdl_year, $CDL_ONLY)) {
-                fwrite($cdl_pl, "{$cdl_year->name},{$cdl_year->type}\n");
-            }
-            if (!find($ListPl, $cdl_year, $CDL_AND_YEAR)) {
-                array_push($ListPl, $cdl_year);
-            }
-        } */
+        }
     }
 
     fclose($year);
@@ -120,31 +123,45 @@
     
     $query = "LOAD DATA INFILE '/data/cdl.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
     $conn->query($query);
-/* 
-    $conn->select_db("ranking_subsequent_years_housing");
-    $query = "LOAD DATA INFILE '/data/year_pl.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
-    //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/year_pl.csv' INTO TABLE year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (year)";
-    $conn->query($query);
-    $query = "LOAD DATA INFILE '/data/cdl_pl.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
-    //$query = "LOAD DATA INFILE 'D:/progetti/ersu-rankings/data/cdl_pl.csv' INTO TABLE cdl FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (name, type)";
-    $conn->query($query); */
-
-    rewind($file);
 
     $cdl_year_file = fopen("/data/cdl_year.csv", "w");
-    $participant = fopen("/data/participant_sy.csv", "w");
-    
-    /* $cdl_year_bs = fopen("/data/cdl_year_bs.csv", "w");
-    $cdl_year_pl = fopen("/data/cdl_year_pl.csv", "w");
-    $participant_bs = fopen("/data/participant_sy_bs.csv", "w");
-    $participant_pl = fopen("/data/participant_sy_pl.csv", "w");
-    //$cdl_year_bs = fopen("../../data/cdl_year_bs.csv", "w");
-    //$cdl_year_pl = fopen("../../data/cdl_year_pl.csv", "w");
-    //$participant_bs = fopen("../../data/participant_sy_bs.csv", "w");
-    //$participant_pl = fopen("../../data/participant_sy_pl.csv", "w"); */
+    foreach($list as $cdl_year) {
+        $query = "SELECT cdl.id AS cdl_id, year.id AS year_id FROM cdl, year WHERE name = ? AND type = ? AND year = ?";
+        $stat = $conn->prepare($query);
+        $stat->bind_param("sss", $cdl_year->name, $cdl_year->type, $cdl_year->year);
+        $stat->execute();
+        $result = $stat->get_result();
+        $row = $result->fetch_assoc();
+        
+        $cdl_id = $row["cdl_id"];
+        $year_id = $row["year_id"];
 
+        $string = "$cdl_id,$year_id,";
+        if (strlen($cdl_year->outcome_bs) > 0 && ($cdl_year->outcome_bs[0] == 'i' || str_contains($cdl_year->outcome_bs, "omissioni"))) {
+            $string .= "1,";
+        }
+        else {
+            $string .= "0,";
+        }
+        if (strlen($cdl_year->outcome_pl) > 0 && ($cdl_year->outcome_pl[0] == 'i' || str_contains($cdl_year->outcome_pl, "omissioni"))) {
+            $string .= "1\n";
+        }
+        else {
+            $string .= "0\n";
+        }
+
+        fwrite($cdl_year_file, $string);
+    }
+
+    fclose($cdl_year_file);
+
+    $query = "LOAD DATA INFILE '/data/cdl_year.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
+    $conn->query($query);
+    
+    rewind($file);
+
+    $participant = fopen("/data/participant_sy.csv", "w");
     while ($string = fgets($file)) {
-        $cdl_year = new cdl_year($string);
         $record = new Record($string);
         $record->calculateScore();
 
@@ -160,56 +177,14 @@
             $cdl_id = $row["cdl_id"];
             $year_id = $row["year_id"];
 
-            if (in_array($cdl_year, $list)) {
-                fwrite($cdl_year_file, "$cdl_id,$year_id\n");
-                unset($list[array_search($cdl_year, $list)]);
-            }
-
             $data = buildData($record, $cdl_id, $year_id);
             fwrite($participant, $data);
         }
-        /* if (strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni"))) {
-            $conn->select_db("ranking_subsequent_years_housing");
-            $query = "SELECT cdl.id AS cdl_id, year.id AS year_id FROM cdl, year WHERE name = ? AND type = ? AND year = ?";
-            $stat = $conn->prepare($query);
-            $stat->bind_param("sss", $record->cdl, $record->type, $record->year);
-            $stat->execute();
-            $result = $stat->get_result();
-            $row = $result->fetch_assoc();
-            $cdl_id = $row["cdl_id"];
-            $year_id = $row["year_id"];
-
-            if (in_array($cdl_year, $ListPl)) {
-                fwrite($cdl_year_pl, "$cdl_id,$year_id\n");
-                unset($ListPl[array_search($cdl_year, $ListPl)]);
-            }
-
-            $data = buildData($record, $cdl_id, $year_id);
-            fwrite($participant_pl, $data);
-        } */
     }
     
-    /* fclose($cdl_year_bs);
-    fclose($cdl_year_pl);
-    fclose($participant_bs);
-    fclose($participant_pl); */
-    fclose($cdl_year_file);
     fclose($participant);
     fclose($file);
-
-    /* $conn->select_db("ranking_subsequent_years_scholarship");
-    $query = "LOAD DATA INFILE '/data/cdl_year_bs.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
-    $conn->query($query);
-    $query = "LOAD DATA INFILE '/data/participant_sy_bs.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
-    $conn->query($query);
-    $conn->select_db("ranking_subsequent_years_housing");
-    $query = "LOAD DATA INFILE '/data/cdl_year_pl.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
-    $conn->query($query);
-    $query = "LOAD DATA INFILE '/data/participant_sy_pl.csv' INTO TABLE participant FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, cdl, year)";
-    $conn->query($query); */
-    
-    $query = "LOAD DATA INFILE '/data/cdl_year.csv' INTO TABLE cdl_year FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'";
-    $conn->query($query);
+ 
     $query = "LOAD DATA INFILE '/data/participant_sy.csv' INTO TABLE participant_sy FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (request_number, cfu, average, honors, bonus, score, notes, isee, scholarship, accommodation, cdl, year)";
     $conn->query($query);
     $conn->close();
