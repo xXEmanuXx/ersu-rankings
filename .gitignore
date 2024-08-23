@@ -13,9 +13,9 @@ secret
 *.exe
 *.out
 .website
-rankings-web/HELP.md
-rankings-web/.mvn
-rankings-web/src/main/**/target/
-rankings-web/src/test/**/target/
-rankings-web/target
-rankings-web/src/main/resources/static/icons
+rankings/HELP.md
+rankings/.mvn
+rankings/src/main/**/target/
+rankings/src/test/**/target/
+rankings/target
+rankings/src/main/resources/static/icons
