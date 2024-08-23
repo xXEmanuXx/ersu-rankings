@@ -72,10 +72,10 @@ public class RankingsController {
         if (participantId != null) {
             List<ParticipantSy> participants;
             if (requestType.equals("bs")) {
-                participants = participantSyRepository.findAllWithScholarship(participantId);
+                participants = participantSyRepository.findAllWithScholarshipUsingParticipantId(participantId);
             }
             else {
-                participants = participantSyRepository.findAllWithAccommodation(participantId);
+                participants = participantSyRepository.findAllWithAccommodationUsingParticipantId(participantId);
             }
 
             Cdl cdl = cdlRepository.findCdlOfParticipant(participantId);
@@ -85,6 +85,75 @@ public class RankingsController {
             model.addAttribute("cdl", cdl);
             model.addAttribute("year", year);
 
+            if (lang.equals("it")) {
+                return "rankings_sy";
+            }
+            else {
+                return "rankings_sy-en";
+            }
+        }
+
+        return "redirect:/error";
+    }
+
+    @PostMapping("/degree")
+    public String rankingsDegree(@RequestParam(name = "lang") String lang,
+                                 @RequestParam(name = "request-type") String requestType,
+                                 @RequestParam(name = "year-type") String yearType,
+                                 @RequestParam(name = "cdl-name", required = false) String cdlName,
+                                 @RequestParam(name = "cdl-type", required = false) String cdlType,
+                                 @RequestParam(name = "year", required = false) String year,
+                                 Model model) {
+
+        if (!(lang.equals("it") || lang.equals("en")) || !(requestType.equals("bs") || requestType.equals("pl")) || !(yearType.equals("fy") || yearType.equals("sy"))) {
+            return "redirect:/error";
+        }
+
+        // ricerca primi anni
+        if (yearType.equals("fy")) {
+            List<ParticipantFy> participants;
+            if (requestType.equals("bs")) {
+                participants = participantFyRepository.findAllWithScholarship();
+            }
+            else {
+                participants = participantFyRepository.findAllWithAccommodation();
+            }
+
+            model.addAttribute("participants", participants);
+
+            if (lang.equals("it")) {
+                return "rankings_fy";
+            }
+            else {
+                return "rankings_fy-en";
+            }
+        }
+
+        // ricerca anni successivi
+        if (cdlName != null && cdlType != null && year != null) {
+            List<ParticipantSy> participants;
+            if (requestType.equals("bs")) {
+                participants = participantSyRepository.findAllWithScholarshipUsingDegree(cdlName, cdlType, year);
+            }
+            else {
+                participants = participantSyRepository.findAllWithAccommodationUsingDegree(cdlName, cdlType, year);
+            }
+    
+            if (participants.isEmpty()) {
+                return "redirect:/error";
+            }
+    
+            model.addAttribute("participants", participants);
+    
+            Cdl cdl = new Cdl();
+            cdl.setName(cdlName);
+            cdl.setType(cdlType);
+            model.addAttribute("cdl", cdl);
+    
+            Year yearModel = new Year();
+            yearModel.setYear(year);
+            model.addAttribute("year", yearModel);
+    
             if (lang.equals("it")) {
                 return "rankings_sy";
             }

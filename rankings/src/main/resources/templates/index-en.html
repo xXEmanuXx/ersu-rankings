@@ -171,17 +171,19 @@
                 </form>
 
                 <!-- cdl and year search form -->
-                <form action="" method="post" id="form2" class="needs-validation" novalidate>
+                <form action="/rankings/degree" method="post" id="form2" class="needs-validation" novalidate>
                     <div class="col-12 text-center h5 fw-bold pb-2">Search by degree program and year</div>
+
+                    <input type="hidden" name="lang" value="en">
 
                     <div class="col-12 text-center fw-bold my-2">Request type</div>
                     <div class="d-flex flex-column align-items-center flex-sm-row justify-content-sm-around">
                         <div class="form-check">
-                            <input type="radio" name="request-type" id="form2-request-type-bs" class="form-check-input" value="" required>
+                            <input type="radio" name="request-type" id="form2-request-type-bs" class="form-check-input" value="bs" required>
                             <label for="form2-request-type-bs" class="form-check-label">Scholarship</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" name="request-type" id="form2-request-type-pl" class="form-check-input" value="" required>
+                            <input type="radio" name="request-type" id="form2-request-type-pl" class="form-check-input" value="pl" required>
                             <label for="form2-request-type-pl" class="form-check-label">Accommodation</label>
                         </div>
                     </div>
@@ -190,11 +192,11 @@
                     <div class="col-12 text-center fw-bold mb-2 mt-3">Year categories</div>
                     <div class="d-flex flex-column align-items-center flex-sm-row justify-content-sm-around">
                         <div class="form-check">
-                            <input type="radio" name="year-type" id="form2-year-type-fy" class="form-check-input" value="" required>
+                            <input type="radio" name="year-type" id="form2-year-type-fy" class="form-check-input" value="fy" required>
                             <label for="form2-year-type-fy" class="form-check-label">First years</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" name="year-type" id="form2-year-type-sy" class="form-check-input" value="" required>
+                            <input type="radio" name="year-type" id="form2-year-type-sy" class="form-check-input" value="sy" required>
                             <label for="form2-year-type-sy" class="form-check-label">Subsequent years</label>
                         </div>
                     </div>
@@ -203,28 +205,22 @@
                     <div class="row mt-4">
                         <div class="col-10 offset-1 col-sm-3 offset-sm-0 text-center">
                             <label for="form2-cdl" class="form-label fw-bold">Degree program</label>
-                            <select name="cdl" id="form2-cdl" class="form-select mb-3" disabled>
-                                <option value="" selected disabled hidden>Computer Science</option>
-                                <option value="">test1</option>
-                                <option value="">test2</option>
+                            <select name="cdl-name" id="form2-cdl-name" class="form-select mb-3" disabled>
+                                <option value="" selected disabled hidden>Computer Science (example)</option>
                             </select>
                             <div class="invalid-feedback">Select a degree program</div>
                         </div>
                         <div class="col-10 offset-1 col-sm-4 offset-sm-1 text-center">
                             <label for="form2-cdl-type" class="form-label fw-bold">Degree type</label>
                             <select name="cdl-type" id="form2-cdl-type" class="form-select mb-3" disabled>
-                                <option value="" selected disabled hidden>Magistrale a ciclo unico</option>
-                                <option value="">test1</option>
-                                <option value="">test2</option>
+                                <option value="" selected disabled hidden>Bachelor (example)</option>
                             </select>
                             <div class="invalid-feedback">Select a degree type</div>
                         </div>
                         <div class="col-10 offset-1 col-sm-2 offset-sm-1 text-center">
                             <label for="form2-year" class="form-label fw-bold">Year</label>
                             <select name="year" id="form2-year" class="form-select mb-3" disabled>
-                                <option value="" selected disabled hidden>FC1</option>
-                                <option value="">test1</option>
-                                <option value="">test2</option>
+                                <option value="" selected disabled hidden>FC1 (example)</option>
                             </select>
                             <div class="invalid-feedback">Select year</div>
                         </div>

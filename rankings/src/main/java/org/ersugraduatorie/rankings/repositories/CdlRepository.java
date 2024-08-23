@@ -8,16 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CdlRepository extends JpaRepository<Cdl, Long> {
-    @Query("SELECT DISTINCT c.name FROM Cdl c JOIN c.cdl_year cy WHERE cy.scholarship = true")
+    @Query("SELECT DISTINCT c.name FROM Cdl c JOIN c.cdl_year cy WHERE cy.scholarship = true ORDER BY c.name ASC")
     public List<String> findCdlNamesWithScholarship();
 
-    @Query("SELECT DISTINCT c.name FROM Cdl c JOIN c.cdl_year cy WHERE cy.accommodation = true")
+    @Query("SELECT DISTINCT c.name FROM Cdl c JOIN c.cdl_year cy WHERE cy.accommodation = true ORDER BY c.name ASC")
     public List<String> findCdlNamesWithAccommodation();
 
-    @Query("SELECT DISTINCT c.type FROM Cdl c JOIN c.cdl_year cy WHERE c.name = :name AND cy.scholarship = true")
+    @Query("SELECT DISTINCT c.type FROM Cdl c JOIN c.cdl_year cy WHERE c.name = :name AND cy.scholarship = true ORDER BY c.type ASC")
     public List<String> findCdlTypesWithScholarship(@Param("name") String name);
 
-    @Query("SELECT DISTINCT c.type FROM Cdl c JOIN c.cdl_year cy WHERE c.name = :name AND cy.accommodation = true")
+    @Query("SELECT DISTINCT c.type FROM Cdl c JOIN c.cdl_year cy WHERE c.name = :name AND cy.accommodation = true ORDER BY c.type ASC")
     public List<String> findCdlTypesWithAccommodation(@Param("name") String name);
 
     @Query("SELECT c.id FROM Cdl c WHERE c.name = :name AND c.type = :type")
