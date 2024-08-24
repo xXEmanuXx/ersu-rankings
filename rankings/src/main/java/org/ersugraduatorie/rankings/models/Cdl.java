@@ -31,6 +31,13 @@ public class Cdl {
     @OneToMany(mappedBy = "cdl")
     private Set<ParticipantSy> participants;
 
+    public Cdl() {}
+
+    public Cdl(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }

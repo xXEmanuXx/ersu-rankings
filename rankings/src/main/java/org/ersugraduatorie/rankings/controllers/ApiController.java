@@ -19,6 +19,22 @@ public class ApiController {
     private final CdlRepository cdlRepository;
     private final YearRepository yearRepository;
 
+    private boolean isValidRequestType(String requestType) {
+        return "bs".equals(requestType) || "pl".equals(requestType);
+    }
+
+    private List<String> getCdlNames(String requestType) {
+        return "bs".equals(requestType) ? cdlRepository.findCdlNamesWithScholarship() : cdlRepository.findCdlNamesWithAccommodation();
+    }
+
+    private List<String> getCdlTypes(String requestType, String cdlName) {
+        return "bs".equals(requestType) ? cdlRepository.findCdlTypesWithScholarship(cdlName) : cdlRepository.findCdlTypesWithAccommodation(cdlName);
+    }
+
+    private List<String> getYears(String requestType, String cdlName, String cdlTypes) {
+        return "bs".equals(requestType) ? yearRepository.findYearsWithScholarship(cdlName, cdlTypes) : yearRepository.findYearsWithAccommodation(cdlName, cdlTypes);
+    }
+
     public ApiController(CdlRepository cdlRepository, YearRepository yearRepository) {
         this.cdlRepository = cdlRepository;
         this.yearRepository = yearRepository;
@@ -29,13 +45,9 @@ public class ApiController {
         List<String> options = null;
         
         String requestType = data.getRequestType();
-        if (requestType != null) {
-            if (requestType.equals("bs")) {
-                options = cdlRepository.findCdlNamesWithScholarship();
-            }
-            else if (requestType.equals("pl")) {
-                options = cdlRepository.findCdlNamesWithAccommodation();
-            }
+
+        if (isValidRequestType(requestType)) {
+            options = getCdlNames(requestType);
         }
 
         return options;
@@ -47,12 +59,10 @@ public class ApiController {
 
         String requestType = data.getRequestType();
         String cdlName = data.getCdlName();
-        if (requestType != null && cdlName != null) {
-            if (requestType.equals("bs")) {
-                options = cdlRepository.findCdlTypesWithScholarship(cdlName);
-            }
-            else if (requestType.equals("pl")) {
-                options = cdlRepository.findCdlTypesWithAccommodation(cdlName);
+
+        if (isValidRequestType(requestType)) {
+            if (cdlName != null) {
+                options = getCdlTypes(requestType, cdlName);
             }
         }
 
@@ -67,15 +77,9 @@ public class ApiController {
         String cdlName = data.getCdlName();
         String cdlType = data.getCdlType();
 
-        if (requestType != null && cdlName != null && cdlType != null) {
-            Long cdlId = cdlRepository.cdlId(cdlName, cdlType);
-            if (cdlId != null) {
-                if (requestType.equals("bs")) {
-                    options = yearRepository.findYearsWithScholarship(cdlId);
-                }
-                else if (requestType.equals("pl")) {
-                    options = yearRepository.findYearsWithAccommodation(cdlId);
-                }
+        if (isValidRequestType(requestType)) {
+            if (cdlName != null && cdlType != null) {
+                options = getYears(requestType, cdlName, cdlType);
             }
         }
 

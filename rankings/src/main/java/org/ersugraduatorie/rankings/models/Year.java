@@ -27,6 +27,12 @@ public class Year {
     @OneToMany(mappedBy = "year")
     private Set<ParticipantSy> participants;
 
+    public Year() {}
+
+    public Year(String year) {
+        this.year = year;
+    }
+
     public Long getId() {
         return id;
     }
