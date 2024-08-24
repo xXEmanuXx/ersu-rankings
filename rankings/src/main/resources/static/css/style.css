@@ -103,8 +103,6 @@ html[data-bs-theme="dark"] .custom-table thead {
     padding-bottom: 10px;
 }
 
-.a-full-width {
-    display: block;
+.full-width {
     width: 100%;
-    height: 100%;
 }

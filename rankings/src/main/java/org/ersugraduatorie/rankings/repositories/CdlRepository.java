@@ -20,6 +20,12 @@ public interface CdlRepository extends JpaRepository<Cdl, Long> {
     @Query("SELECT DISTINCT c.type FROM Cdl c JOIN c.cdl_year cy WHERE c.name = :name AND cy.accommodation = true ORDER BY c.type ASC")
     public List<String> findCdlTypesWithAccommodation(@Param("name") String name);
 
+    @Query("SELECT DISTINCT c FROM Cdl c JOIN c.cdl_year cy WHERE cy.scholarship = true ORDER BY c.name ASC")
+    public List<Cdl> findAllWithScholarship();
+
+    @Query("SELECT DISTINCT c FROM Cdl c JOIN c.cdl_year cy WHERE cy.accommodation = true ORDER BY c.name ASC")
+    public List<Cdl> findAllWithAccommodation();
+
     @Query("SELECT c.id FROM Cdl c WHERE c.name = :name AND c.type = :type")
     public Long cdlId(@Param("name") String name, @Param("type") String type);
 

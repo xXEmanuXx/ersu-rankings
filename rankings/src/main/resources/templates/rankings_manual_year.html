@@ -118,71 +118,34 @@
         </div>
         
         <div class="container bg-info-subtle rounded shadow my-3 p-4">
-            <div class="row h4 fw-bold text-center">
-                <p>Ricerca manuale corso di laurea</p>
-            </div>
-            <div class="row table-responsive px-3">
-                <table class="table table-striped table-hover custom-table p-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">Corso di laurea</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="/negro" class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2 a-full-width">Economia aziendale triennale</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="/negro" class="link-underline link-underline-opacity-0" style="display: block; width: 100%; height: 100%;">Informatica magistrale</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="/negro" class="link-underline link-offset-2" style="display: block; width: 100%; height: 100%;">Economia triennale</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="/negro" style="display: block; width: 100%; height: 100%;">Informatica triennale</a></td>
-                        </tr>
-                        <tr>
-                            <td>Matematica triennale</td>
-                        </tr>
-                        <tr>
-                            <td>Fisica triennale</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <form action="/rankings/manual" method="post">
+                <input type="hidden" name="lang" th:value="${lang}">
+                <input type="hidden" name="request-type" th:value="${requestType}">
+                <input type="hidden" name="year-type" th:value="${yearType}">
+                <input type="hidden" name="cdl-id" th:value="${cdlId}">
 
-            <div class="row h4 fw-bold text-center d-none">
-                <p>Ricerca manuale anno</p>
-            </div>
-            <div class="row table-responsive px-3">
-                <table class="table table-striped table-hover custom-table p-0 d-none">
-                    <thead>
-                        <tr>
-                            <th scope="col">Anno</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>FC1</td>
-                        </tr>
-                        <tr>
-                            <td>FC2</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="row h4 fw-bold text-center">
+                    <p>Ricerca manuale anno</p>
+                </div>
+                <div class="row table-responsive px-3">
+                    <table class="table table-striped table-hover custom-table p-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Anno</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="year : ${years}">
+                                <td>
+                                    <button type="submit" name="year-id" th:value="${year.id}" class="btn btn-link link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-offset-2 full-width text-start">
+                                        <span th:text="${year.year}"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
         </div>
 
         <div id="modal" class="modal fade" tabindex="-1">

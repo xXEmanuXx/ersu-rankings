@@ -22,4 +22,10 @@ public interface ParticipantSyRepository extends JpaRepository<ParticipantSy, Lo
 
     @Query("SELECT p FROM ParticipantSy p WHERE p.cdl.id = (SELECT c.id FROM Cdl c WHERE c.name = :cdlName AND c.type = :cdlType) AND p.year.id = (SELECT y.id FROM Year y WHERE y.year = :year) AND p.accommodation = true ORDER BY p.score DESC, p.isee ASC")
     public List<ParticipantSy> findAllWithAccommodationUsingDegree(@Param("cdlName") String cdlName, @Param("cdlType") String cdlType, @Param("year") String year);
+
+    @Query("SELECT p FROM ParticipantSy p WHERE p.cdl.id = :cdlId AND p.year.id = :yearId AND p.scholarship = true ORDER BY p.score DESC, p.isee ASC")
+    public List<ParticipantSy> findAllWithScholarshipUsingIds(@Param("cdlId") Long cdlId, @Param("yearId") Long yearId);
+
+    @Query("SELECT p FROM ParticipantSy p WHERE p.cdl.id = :cdlId AND p.year.id = :yearId AND p.accommodation = true ORDER BY p.score DESC, p.isee ASC")
+    public List<ParticipantSy> findAllWithAccommodationUsingIds(@Param("cdlId") Long cdlId, @Param("yearId") Long yearId);
 }
