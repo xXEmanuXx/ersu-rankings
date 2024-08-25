@@ -100,8 +100,8 @@ public class RankingsService {
             }
 
             model.addAttribute("participants", participants);
-            model.addAttribute("cdl", cdl);
-            model.addAttribute("year", year);
+            model.addAttribute("cdl", cdl.get());
+            model.addAttribute("year", year.get());
 
             return true;
         }

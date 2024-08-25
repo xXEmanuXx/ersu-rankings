@@ -25,14 +25,30 @@ services:
       - ./data/initial/db:/docker-entrypoint-initdb.d
     secrets:
       - db_root_password
-    ports: 
-      - "3306:3306"
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
       retries: 3  
       start_period: 10s
       timeout: 5s
+  server:
+    build:
+      context: ./rankings
+    image: server:latest
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: rankings
+      DB_USER_FILE: /run/secrets/db_user
+      DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_user
+      - db_password
+    ports:
+      - "8080:8080"
+    depends_on:
+      db-loader:
+        condition: service_completed_successfully
 volumes:
   db-data:
     name: db-data

@@ -19,5 +19,3 @@ rankings/src/main/**/target/
 rankings/src/test/**/target/
 rankings/target
 rankings/src/main/resources/static/icons
-
-rankings/src/main/resources/application.properties

@@ -4,9 +4,9 @@ RUN apt update && apt install -y gcc php php-mysql
 
 WORKDIR /db-loader
 
-# Copy current directory on host "./database-loader" on container directory "/db-loader"
+# Copy current directory on host "./db-loader" on container directory "/db-loader"
 COPY . .
 
-RUN chmod +x script.sh
+RUN chmod +x setup.sh
 
-CMD ["sh", "script.sh"]
+ENTRYPOINT ["/db-loader/setup.sh"]
