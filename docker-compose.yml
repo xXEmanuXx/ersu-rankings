@@ -47,14 +47,8 @@ services:
     depends_on:
       db-loader:
         condition: service_completed_successfully
-  caddy:
-    image: caddy:2.8-alpine
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - "80:8080"
 volumes:
   db-data:
     name: db-data

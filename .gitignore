@@ -12,7 +12,6 @@ secret
 # Untracked files
 *.exe
 *.out
-rankings/HELP.md
 rankings/.mvn
 rankings/src/main/**/target/
 rankings/src/test/**/target/
