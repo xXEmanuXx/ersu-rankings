@@ -54,10 +54,14 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
+      - caddy-data:/data
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
 volumes:
   db-data:
     name: db-data
+    external: true
+  caddy-data:
+    name: caddy-data
     external: true
 secrets:
   db_root_password:
