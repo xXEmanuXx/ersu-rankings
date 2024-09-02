@@ -41,12 +41,14 @@ services:
       DB_NAME: rankings
       DB_USER_FILE: /run/secrets/db_user
       DB_PASSWORD_FILE: /run/secrets/db_password
+    volumes:
+      - "db-data:/data"
     secrets:
       - db_user
       - db_password
     depends_on:
-      db-loader:
-        condition: service_completed_successfully
+      db:
+        condition: service_healthy
   caddy:
     image: caddy:2.8-alpine
     ports:
