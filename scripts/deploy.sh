@@ -16,7 +16,7 @@ docker compose build
 
 OLD_CONTAINER=$(docker ps -aqf "name=server")
 echo "$(date --utc +%FT%TZ): Scaling server up..."
-BUILD_VERSION=$BUILD_VERSION docker compose up -d --no-dpes --scale server=2 --no-recreate server
+BUILD_VERSION=$BUILD_VERSION docker compose up -d --no-deps --scale server=2 --no-recreate server
 
 # Waiting for server to load
 sleep 15
