@@ -50,14 +50,28 @@
             $this->cdl = $tokens[3];
             $this->type = $tokens[1];
             $this->year = $tokens[4];
-            $this->cfu = $tokens[6];
-            $this->average = $tokens[7];
-            $this->honors = $tokens[8];
+            if (isset($tokens[6])) {
+                $this->cfu = $tokens[6];
+            }
+            if (isset($tokens[7])) {
+                $this->average = $tokens[7];
+            }
+            if (isset($tokens[8])) {
+                $this->honors = $tokens[8];
+            }
             $this->bonus = $tokens[9];
-            $this->notes = $tokens[14];
-            $this->isee = $tokens[10];
-            $this->outcome_bs = $tokens[12];
-            $this->outcome_pl = $tokens[13];
+            if (isset($tokens[14])) {
+                $this->notes = $tokens[14];
+            }
+            if (isset($tokens[10])) {
+                $this->isee = $tokens[10];
+            }
+            if (isset($tokens[12])) {
+                $this->outcome_bs = $tokens[12];
+            }
+            if (isset($tokens[13])) {
+                $this->outcome_pl = $tokens[13];
+            }
         }
 
         function calculateScore() {

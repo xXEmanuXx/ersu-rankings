@@ -21,11 +21,21 @@
             */ 
 
             $this->id = $tokens[0];
-            $this->isee = $tokens[4];
-            $this->ispe = $tokens[5];
-            $this->notes = $tokens[8];
-            $this->outcome_bs = $tokens[6];
-            $this->outcome_pl = $tokens[7];
+            if (isset($tokens[4])) {
+                $this->isee = $tokens[4];
+            }
+            if (isset($tokens[5])) {
+                $this->ispe = $tokens[5];
+            }
+            if (isset($tokens[8])) {
+                $this->notes = $tokens[8];
+            }
+            if (isset($tokens[6])) {
+                $this->outcome_bs = $tokens[6];
+            }
+            if (isset($tokens[7])) {
+                $this->outcome_pl = $tokens[7];
+            }
         }
 
         function calculateScore() {

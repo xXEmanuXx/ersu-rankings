@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo Clearing db-loader flag file
 docker run -d --name tmp -v db-data:/data busybox sleep 3600

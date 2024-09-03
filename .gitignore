@@ -13,7 +13,4 @@ secret
 *.exe
 *.out
 rankings/.mvn
-rankings/src/main/**/target/
-rankings/src/test/**/target/
 rankings/target
-rankings/src/main/resources/static/icons

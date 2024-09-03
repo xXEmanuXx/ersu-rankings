@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Starting Maven package..."
-cd rankings
+cd ../rankings
 ./mvnw package -DskipTests
-cd ..
+cd ../scripts
 
 if [ $? -ne 0 ]; then
     echo "Maven build failed. Exiting script."
@@ -12,7 +12,7 @@ fi
 
 echo Copying initial files to persistent volume 'db-data'
 docker create --name tmp -v db-data:/data hello-world:latest
-docker cp ./data/initial tmp:/data
+docker cp ../data/initial tmp:/data
 docker rm tmp
 
 echo Starting docker containers
