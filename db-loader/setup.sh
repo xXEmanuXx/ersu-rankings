@@ -4,11 +4,9 @@
 echo "Compiling and running 'fix_format' .c files"
 cd fix_format
 gcc main.c fix_format.c -o fix_format
-if [ $? -eq 0 ]; then
-    echo "Running fix_format"
-    ./fix_format first_years.txt subsequent_years.txt
-else
-    echo "Compilation of main.c and fix_format.c failed"
+./fix_format first_years.txt subsequent_years.txt
+if [ $? -ne 0 ]; then
+    echo "Error on fix_format script execution"
     exit 1
 fi
 

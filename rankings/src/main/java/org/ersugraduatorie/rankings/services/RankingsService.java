@@ -149,9 +149,11 @@ public class RankingsService {
     public boolean populateCdls(String requestType, Long cdlId, Long yearId, Model model) {
         if (cdlId == null && yearId == null) {
             List<Cdl> cdls = getCdlList(requestType);
-            model.addAttribute("cdls", cdls);
-
-            return true;
+            if (!cdls.isEmpty()) {
+                model.addAttribute("cdls", cdls);
+                
+                return true;
+            }
         }
 
         return false;
