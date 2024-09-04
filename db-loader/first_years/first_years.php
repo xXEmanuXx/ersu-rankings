@@ -6,7 +6,7 @@
         $string .= strlen($record->isee) > 0 ? $record->isee . "," : "\N,";
         $string .= strlen($record->ispe) > 0 ? $record->ispe . "," : "\N,";
         $string .= $record->score . ",";
-        $string .= strlen($record->notes) > 0 ? $record->isee . "," : "\N,";
+        $string .= strlen($record->notes) > 0 ? $record->notes . "," : "\N,";
         $string .= strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni")) ? "1," : "0,";
         $string .= strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni")) ? "1" : "0";
 
