@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rows = document.querySelectorAll('tbody tr');
     buttons.forEach((button) => {
         button.addEventListener('click', () => {
-            var max = (button.value) ? Math.floor(rows.length * button.value / 100) : 200;
+            var max = (button.value) ? Math.floor(rows.length * button.value / 100) < 1 ? 1 : Math.floor(rows.length * button.value / 100) : 200;
             for (let i = 0; i < max; i++) {
                 rows[i].classList.add('highlight-success');
                 rows[i].classList.remove('highlight-danger');
