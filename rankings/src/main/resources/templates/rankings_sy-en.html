@@ -129,7 +129,15 @@
                     <p>Year: <span th:text="${year.year}"></span></p>
                 </div>
             </div>
-            <div class="row table-responsive px-3">
+            <div class="row">
+                <div class="col-2 offset-3">
+                    <button type="button" class="btn btn-primary text-center w-100" value="25">Possible recipients (25%)</button>
+                </div>
+                <div class="col-2 offset-2">
+                    <button type="button" class="btn btn-primary text-center w-100" value="33">Possible recipients (33%)</button>
+                </div>
+            </div>
+            <div class="row table-responsive px-3 mt-3">
                 <table class="table table-striped table-hover custom-table p-0">
                     <thead>
                         <tr>

@@ -3,60 +3,15 @@
         $string = "";
 
         $string .= $record->id . ",";
-
-        if (strlen($record->cfu) > 0) {
-            $string .= $record->cfu . ",";
-        }
-        else {
-            $string .= "\N,";
-        }
-
-        if (strlen($record->average) > 0) {
-            $string .= $record->average . ",";
-        }
-        else {
-            $string .= "\N,";
-        }
-
-        if (strlen($record->honors) > 0) {
-            $string .= $record->honors . ",";
-        }
-        else {
-            $string .= "\N,";
-        }
-
+        $string .= strlen($record->cfu) > 0 ? $record->cfu . "," : "\N,";
+        $string .= strlen($record->average) > 0 ? $record->average . "," : "\N,";
+        $string .= strlen($record->honors) > 0 ? $record->honors . "," : "\N,";
         $string .= $record->bonus . ",";
-        
         $string .= $record->score . ",";
-        
-        if (strlen($record->notes) > 0) {
-            $string .= $record->notes . ",";
-        }
-        else {
-            $string .= "\N,";
-        }
-
-        if (strlen($record->isee) > 0) {
-            $string .= $record->isee . ",";
-        }
-        else {
-            $string .= "\N,";
-        }
-
-        if (strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni"))) {
-            $string .= "1,";
-        }
-        else {
-            $string .= "0,";
-        }
-
-        if (strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni"))) {
-            $string .= "1,";
-        }
-        else {
-            $string .= "0,";
-        }
-
+        $string .= strlen($record->notes) > 0 ? $record->notes . "," : "\N,";
+        $string .= strlen($record->isee) > 0 ? $record->isee . "," : "\N,";
+        $string .= strlen($record->outcome_bs) > 0 && ($record->outcome_bs[0] == 'i' || str_contains($record->outcome_bs, "omissioni")) ? "1," : "0,";
+        $string .= strlen($record->outcome_pl) > 0 && ($record->outcome_pl[0] == 'i' || str_contains($record->outcome_pl, "omissioni")) ? "1," : "0,";
         $string .= $cdl_id . ",";
         $string .= $year_id . "\n";
 
@@ -137,7 +92,9 @@
         $year_id = $row["year_id"];
 
         $string = "$cdl_id,$year_id,";
-        if (strlen($cdl_year->outcome_bs) > 0 && ($cdl_year->outcome_bs[0] == 'i' || str_contains($cdl_year->outcome_bs, "omissioni"))) {
+        $string .= strlen($cdl_year->outcome_bs) > 0 && ($cdl_year->outcome_bs[0] == 'i' || str_contains($cdl_year->outcome_bs, "omissioni")) ? "1," : "0,";
+        $string .= strlen($cdl_year->outcome_pl) > 0 && ($cdl_year->outcome_pl[0] == 'i' || str_contains($cdl_year->outcome_pl, "omissioni")) ? "1\n" : "0\n";
+        /* if (strlen($cdl_year->outcome_bs) > 0 && ($cdl_year->outcome_bs[0] == 'i' || str_contains($cdl_year->outcome_bs, "omissioni"))) {
             $string .= "1,";
         }
         else {
@@ -148,7 +105,7 @@
         }
         else {
             $string .= "0\n";
-        }
+        } */
 
         fwrite($cdl_year_file, $string);
     }

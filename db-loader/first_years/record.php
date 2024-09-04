@@ -21,7 +21,6 @@
             */ 
 
             $this->id = $tokens[0];
-            
             if (isset($tokens[4])) {
                 $this->isee = $tokens[4];
             }
