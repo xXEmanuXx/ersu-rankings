@@ -118,7 +118,7 @@
         </div>
         
         <div class="container bg-info-subtle rounded shadow my-3 p-4 ">
-            <div class="row h4 fw-bold text-center">
+            <div id="table-title" class="row h4 fw-bold text-center">
                 <p>Graduatoria anni successivi al primo</p>
             </div>
             <div class="row fw-bold">
@@ -131,10 +131,10 @@
             </div>
             <div class="row">
                 <div class="col-6 col-sm-4 offset-sm-1 col-lg-2 offset-lg-3">
-                    <button type="button" class="btn btn-primary text-center w-100" value="25">Possibili assegnatari (25%)</button>
+                    <button type="button" class="btn btn-primary text-center w-100 d-none" value="25">Possibili assegnatari (25%)</button>
                 </div>
                 <div class="col-6 col-sm-4 offset-sm-2 col-lg-2 offset-lg-2">
-                    <button type="button" class="btn btn-primary text-center w-100" value="33">Possibili assegnatari (33%)</button>
+                    <button type="button" class="btn btn-primary text-center w-100 d-none" value="33">Possibili assegnatari (33%)</button>
                 </div>
             </div>
             <div class="row table-responsive px-3 mt-3">
@@ -189,6 +189,8 @@
         </div>
 
         <div class="full-height"></div>
+
+        <input type="hidden" name="request-type" th:value="${requestType}">
     </div>
 </body>
 </html>

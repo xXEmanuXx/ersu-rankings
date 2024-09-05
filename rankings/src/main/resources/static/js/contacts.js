@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isProcessing) {
                 return;
             }
-            console.log('cringit');
             isProcessing = true;
 
             var text = button.parentElement.querySelector('.description').textContent.trim();
