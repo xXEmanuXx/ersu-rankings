@@ -44,6 +44,7 @@ public class RankingsController {
         }
 
         model.addAttribute("requestNumber", requestNumber);
+        model.addAttribute("requestType", requestType);
 
         if (rankingsService.populateFirstYearsParticipants(requestType, requestNumber, model)) {
             return resolveViewName("rankings_fy", lang);
@@ -68,6 +69,8 @@ public class RankingsController {
         if (!isValidLang(lang) || !isValidRequestType(requestType) || !isValidYearType(yearType)) {
             return "redirect:/error";
         }
+
+        model.addAttribute("requestType", requestType);
 
         // ricerca primi anni
         if ("fy".equals(yearType)) {

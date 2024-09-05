@@ -162,9 +162,11 @@ public class RankingsService {
     public boolean populateYears(String requestType, Long cdlId, Long yearId, Model model) {
         if (cdlId != null && yearId == null) {
             List<Year> years = getYearList(requestType, cdlId);
+            Optional<Cdl> cdl = getCdl(cdlId);
             if (!years.isEmpty()) {
                 model.addAttribute("years", years);
                 model.addAttribute("cdlId", cdlId);
+                model.addAttribute("cdl", cdl.get());
                 
                 return true;
             }
