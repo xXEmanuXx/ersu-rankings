@@ -15,9 +15,9 @@ public interface ParticipantFyRepository extends JpaRepository<ParticipantFy, Lo
     @Query("SELECT p FROM ParticipantFy p WHERE p.accommodation = true ORDER BY p.score DESC, p.ispe ASC")
     public List<ParticipantFy> findAllWithAccommodation();
 
-    @Query("SELECT p FROM ParticipantFy p WHERE EXISTS (SELECT 1 FROM ParticipantFy p WHERE p.request_number = :requestNumber) AND p.scholarship = true ORDER BY p.score DESC, p.ispe ASC")
+    @Query("SELECT p FROM ParticipantFy p WHERE EXISTS (SELECT 1 FROM ParticipantFy p WHERE p.request_number = :requestNumber AND p.scholarship = true) AND p.scholarship = true ORDER BY p.score DESC, p.ispe ASC")
     public List<ParticipantFy> findAllWithScholarshipUsingRequestNumber(@Param("requestNumber") String requestNumber);
 
-    @Query("SELECT p FROM ParticipantFy p WHERE EXISTS (SELECT 1 FROM ParticipantFy p WHERE p.request_number = :requestNumber) AND p.accommodation = true ORDER BY p.score DESC, p.ispe ASC")
+    @Query("SELECT p FROM ParticipantFy p WHERE EXISTS (SELECT 1 FROM ParticipantFy p WHERE p.request_number = :requestNumber AND p.accommodation = true) AND p.accommodation = true ORDER BY p.score DESC, p.ispe ASC")
     public List<ParticipantFy> findAllWithAccommodationUsingRequestNumber(@Param("requestNumber") String requestNumber);
 }
