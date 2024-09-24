@@ -39,12 +39,7 @@
         }
 
         function calculateScore() {
-            if (strlen($this->isee) > 0) {
-                $this->score = 100 * (1 - $this->isee / $GLOBALS["LIMIT_ISEE"]);
-            }
-            else {
-                $this->score = 0;
-            }
+            $this->score = (strlen($this->isee) > 0) ? 100 * (1 - $this->isee / $GLOBALS["LIMIT_ISEE"]) : 0;
         }
     };
 ?>

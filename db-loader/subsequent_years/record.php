@@ -86,40 +86,22 @@
                 switch ($this->type) {
                     case "triennale":
                         $total_years = 3;
-                        break;
                     case "magistrale":
                         $total_years = 2;
-                        break;
-                    default:
-                        if ($this->cdl == "medicina e chirurgia" || $this->cdl == "odontoiatria e protesi dentaria") {
-                            $total_years = 6;
-                        }
-                        else {
-                            $total_years = 5;
-                        }
+                    case "ciclo unico":
+                        $total_years = ($this->cdl == "medicina e chirurgia" || $this->cdl == "odontoiatria e protesi dentaria") ? 6 : 5;
                 }
                 $expected_cfu = $total_years * $GLOBALS["CFU_PER_YEAR"]; 
             }
 
             if (strlen($this->honors) > 0) {
-                if ($this->honors > 4) {
-                    $honors = 4;
-                }
-                else {
-                    $honors = $this->honors;
-                }
+                $honors = ($this->honors > 4) ? 4 : $this->honors;
             }
             else {
                 $honors = 0;
             }
 
-            if (strlen($this->cfu) > 0 && strlen($this->average) > 0) {
-                $this->score = $GLOBALS["CFU_WEIGHT"] * ($this->cfu / $expected_cfu) + $GLOBALS["AVERAGE_WEIGHT"] * ($this->average / $GLOBALS["MAX_AVERAGE"]) + $GLOBALS["HONORS_WEIGHT"] * $honors;
-            }
-            else {
-                $this->score = 0;
-            }
-
+            $this->score = (strlen($this->cfu) > 0 && strlen($this->average) > 0) ? $GLOBALS["CFU_WEIGHT"] * ($this->cfu / $expected_cfu) + $GLOBALS["AVERAGE_WEIGHT"] * ($this->average / $GLOBALS["MAX_AVERAGE"]) + $GLOBALS["HONORS_WEIGHT"] * $honors : 0;
         }
     }
 ?>
