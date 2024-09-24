@@ -86,8 +86,10 @@
                 switch ($this->type) {
                     case "triennale":
                         $total_years = 3;
+                        break;
                     case "magistrale":
                         $total_years = 2;
+                        break;
                     default:
                         if ($this->cdl == "medicina e chirurgia" || $this->cdl == "odontoiatria e protesi dentaria") {
                             $total_years = 6;
