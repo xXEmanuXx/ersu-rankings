@@ -12,5 +12,4 @@ secret
 # Untracked files
 *.exe
 *.out
-rankings/.mvn
 rankings/target
