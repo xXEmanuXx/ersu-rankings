@@ -10,10 +10,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo Copying initial files to persistent volume 'db-data'
-docker create --name tmp -v db-data:/data hello-world:latest
-docker cp ../data/initial tmp:/data
-docker rm tmp
+echo "Creating persistent volumes"
+docker volume create caddy-data
+docker volume create db-data
 
-echo Starting docker containers
+echo "Copying initial files to persistent volume 'db-data'"
+docker run --rm -v db-data:/data -v "$(pwd)/../data":/backup busybox sh -c "cp -r /backup/* /data"
+
+echo "Starting docker containers"
 docker compose up -d --build
