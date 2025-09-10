@@ -22,9 +22,11 @@
         public $outcome_pl;
 
         function __construct($string) {
+            print($string);
             $string = substr($string, 0, strlen($string) - 1); // newline character "\n" is removed
             $tokens = explode($GLOBALS["DELIM"], $string);
 
+            print_r($tokens);
             /*  $tokens contents
                 tokens[0] = id, tokens[1] = type, tokens[2] = institute, tokens[3] = cdl, tokens[4] = year, tokens[5] = place, tokens[6] = cfu, tokens[7] = average, 
                 tokens[8] = honors, tokens[9] = bonus, tokens[10] = isee, tokens[11] = ispe, tokens[12] = outcome_bs, tokens[13] = outcome_pl, tokens[14] = notes
@@ -86,12 +88,20 @@
                 switch ($this->type) {
                     case "triennale":
                         $total_years = 3;
+                        break;
                     case "magistrale":
                         $total_years = 2;
+                        break;
                     case "ciclo unico":
                         $total_years = ($this->cdl == "medicina e chirurgia" || $this->cdl == "odontoiatria e protesi dentaria") ? 6 : 5;
+                        break;
+                    default:
+                        $total_years = 5; // this covers for specializzazione
+                    
                 }
-                $expected_cfu = $total_years * $GLOBALS["CFU_PER_YEAR"]; 
+                $expected_cfu = $total_years * $GLOBALS["CFU_PER_YEAR"];
+                print($total_years);
+                print("\n");
             }
 
             if (strlen($this->honors) > 0) {

@@ -3,8 +3,8 @@
 const validateInput = (input) => {
     input.setCustomValidity('');
     const value = input.value.trim();
-    if (value.length != 10 || !value.startsWith("2024", 0) || isNaN(value)) {
-        input.setCustomValidity('Il numero di richiesta deve essere di 10 cifre e iniziare con 2024');
+    if (value.length != 10 || !value.startsWith("2025", 0) || isNaN(value)) {
+        input.setCustomValidity('Il numero di richiesta deve essere di 10 cifre e iniziare con 2025');
         return false;
     }
 

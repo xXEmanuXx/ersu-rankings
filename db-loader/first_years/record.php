@@ -1,6 +1,6 @@
 <?php
     $DELIM = "\t";
-    $LIMIT_ISEE = 24335.11; // might change every year
+    $LIMIT_ISEE = 25000; // might change every year
     
     class Record {
         public $id;
@@ -12,8 +12,10 @@
         public $outcome_pl;
 
         function __construct($string) {
+            print($string);
             $string = substr($string, 0, strlen($string) - 1); // newline character "\n" is removed 
             $tokens = explode($GLOBALS["DELIM"], $string);
+            print_r($tokens);
 
             /*  $tokens contents
             tokens[0] = id, tokens[1] = type, tokens[2] = institute, tokens[3] = place, tokens[4] = isee, 
