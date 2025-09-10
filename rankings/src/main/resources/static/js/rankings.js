@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         buttons.forEach((button) => {
             button.classList.remove('d-none');
             button.addEventListener('click', () => {
-                var max = (button.value) ? Math.floor(rows.length * button.value / 100) < 1 ? 1 : Math.floor(rows.length * button.value / 100) : 200;
+                var max = (button.value) ? Math.floor(rows.length * button.value / 100) < 1 ? 1 : Math.floor(rows.length * button.value / 100) : 130;
                 for (let i = 0; i < max; i++) {
                     rows[i].classList.add('highlight-success');
                     rows[i].classList.remove('highlight-danger');
@@ -42,5 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentText = tableTitle.textContent;
             tableTitle.textContent = currentText.replace("years ranking", "years scholarship ranking")
         }
+    }
+
+    const row = document.querySelector('table.custom-table tbody tr.h5.fw-bold');
+    if (row) {
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 });
