@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-RUN apt update && apt install -y gcc php php-mysql
+RUN apt update && apt install -y gcc libc6-dev php php-mysql
 
 WORKDIR /db-loader
 

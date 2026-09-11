@@ -50,7 +50,7 @@ services:
       db:
         condition: service_healthy
   caddy:
-    image: caddy:2.8-alpine
+    image: caddy:2-alpine
     ports:
       - "80:80"
       - "443:443"
